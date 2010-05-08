@@ -39,10 +39,10 @@ float arm_rotation_inc = 0.6; 	// Inner arm rotation increment
 
 
 /*
- * METHOD: darw_moveable_parts
+ * METHOD: draw_moveable_parts
  * This method draws all the parts of the ride that move.
  */
-void darw_moveable_parts()
+void draw_moveable_parts()
 {
 	int i;
 	for(i = 0; i < 360; i += 120) // loops 3 times, increasing rotation each time ...
@@ -198,7 +198,7 @@ void display()
 	
 	glRotatef(ride_rotation,0.0,1,0.0);		// Animate moveable parts around the main pole.
 	glTranslatef(0.0,move_height,0.0);
-	darw_moveable_parts();
+	draw_moveable_parts();
 	
 	glPopMatrix(); // Pop here to stop base spinning.
     draw_base(DKGREEN);
