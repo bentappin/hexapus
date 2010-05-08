@@ -8,7 +8,7 @@ void draw_circle(int faces)
 
 	glPushMatrix();
 	glPushAttrib( GL_ALL_ATTRIB_BITS );
-	glMaterialfv( GL_FRONT, GL_SPECULAR, specFact ); 
+	glMaterialfv( GL_FRONT, GL_SPECULAR, spec_fact ); 
 	glMaterialfv( GL_FRONT, GL_SHININESS, shininess );
 
 	glBegin(GL_POLYGON);
@@ -105,7 +105,7 @@ void draw_tetrahedron( int m )
     /* Apply triangle subdivision to faces of tetrahedron */
     glPushMatrix();
         glPushAttrib( GL_ALL_ATTRIB_BITS );
-        glMaterialfv( GL_FRONT, GL_SPECULAR, specFact ); 
+        glMaterialfv( GL_FRONT, GL_SPECULAR, spec_fact ); 
         glMaterialfv( GL_FRONT, GL_SHININESS, shininess );
         divide_triangle(v[0], v[1], v[2], m-1);
         divide_triangle(v[3], v[2], v[1], m-1);

@@ -62,16 +62,10 @@ void draw_moveable_parts()
 			draw_sphere(SMALL_SPHERE);
 		
 			// If the tilt key has been pressed lets tilt the carts!
-			if (tilt == 1)
-			{
-				if (tilt_ang < MAX_TILT)
-					tilt_ang += 0.25;
-			}
-			else
-			{
-				if (tilt_ang >= 0.0)
-					tilt_ang -=  0.25;
-			}
+			if (tilt == 1 && tilt_ang < MAX_TILT)
+			    tilt_ang += 0.25;
+			else if (tilt_ang >= 0.0)
+				tilt_ang -=  0.25;
 			
 			glRotatef(tilt_ang, 0.0, 0.0, 1.0);
 						
@@ -222,8 +216,8 @@ void reshape(int w, int h)
 	glTranslatef(0.0, 0.0, -50.0);
 
 	gluLookAt( 	0.0, 20.0, -10.0,	// eye
-			0.0, 16.0, 0.0,		// at
-			0.0, 1.0 , 0.0);	// up
+			    0.0, 16.0, 0.0,		// at
+			    0.0, 1.0 , 0.0);	// up
 
 	glMatrixMode(GL_MODELVIEW);
 
@@ -261,16 +255,16 @@ int main(int argc, char **argv)
 	glColorMaterial( GL_FRONT_AND_BACK, GL_AMBIENT_AND_DIFFUSE );
 
 	// Create light components
-	GLfloat ambientLight[] = { 0.6f, 0.6f, 0.6f, 1.0f };
-	GLfloat diffuseLight[] = { 0.8f, 0.8f, 0.8, 1.0f };
-	GLfloat specularLight[] = { 0.6f, 0.6f, 0.6f, 1.0f };
+	GLfloat ambient_light[] = { 0.6f, 0.6f, 0.6f, 1.0f };
+	GLfloat diffuse_light[] = { 0.8f, 0.8f, 0.8, 1.0f };
+	GLfloat specular_light[] = { 0.6f, 0.6f, 0.6f, 1.0f };
 	//GLfloat position[] = { -20.0f, 50.0f, -30.0f, 1.0f };
 	GLfloat position[] = { -10.0f, 40.0f, -10.0f, 1.0f };
 
 	// Assign created components to GL_LIGHT0
-	glLightfv(GL_LIGHT0, GL_AMBIENT, ambientLight);
-	glLightfv(GL_LIGHT0, GL_DIFFUSE, diffuseLight);
-	glLightfv(GL_LIGHT0, GL_SPECULAR, specularLight);
+	glLightfv(GL_LIGHT0, GL_AMBIENT, ambient_light);
+	glLightfv(GL_LIGHT0, GL_DIFFUSE, diffuse_light);
+	glLightfv(GL_LIGHT0, GL_SPECULAR, specular_light);
 	glLightfv(GL_LIGHT0, GL_POSITION, position);
 
 	glutMainLoop();

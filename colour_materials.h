@@ -20,6 +20,6 @@
  * appearance...
  */
  
-GLfloat specFact[]  = { 1.0, 1.0, 1.0, 1.0 };
+GLfloat spec_fact[]  = { 1.0, 1.0, 1.0, 1.0 };
 GLfloat shininess[] = { 8.0 };
 

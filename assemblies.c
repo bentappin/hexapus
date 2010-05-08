@@ -152,7 +152,7 @@ void draw_pole(GLfloat length)
 	for( l1=0; l1<num_facet; l1++ ) { // draw facetted cylinder
 		glBegin (GL_TRIANGLE_STRIP);
 		glPushAttrib( GL_ALL_ATTRIB_BITS );
-		glMaterialfv( GL_FRONT, GL_SPECULAR, specFact ); 
+		glMaterialfv( GL_FRONT, GL_SPECULAR, spec_fact ); 
 		glMaterialfv( GL_FRONT, GL_SHININESS, shininess );
 
 		// get the the angle at which the triangle will have

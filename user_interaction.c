@@ -3,23 +3,20 @@
 void keyboard(unsigned char key,int x,int y)
 {
     key = tolower(key);
-	if (key==27 || key=='q') exit(1);	// Esc key or q exit.
+	if (key==27 || key=='q')
+	    exit(1);	// Esc key or q exit.
 
-	if (key=='s')
-		if (move_up == 0)
-			move_up = 1;
+	if (key=='s' && move_up==0)
+	    move_up = 1;
 
-	if (key=='t')
-		if (move_height >= POLE_EXTENSION)
-			tilt = 1;
+	if (key=='t' && move_height>=POLE_EXTENSION)
+		tilt = 1;
 
-	if (key=='b')
-		if (tilt == 1)
-			tilt = 0;
+	if (key=='b' && tilt==1)
+		tilt = 0;
 	
-	if (key=='e')
-		if (tilt == 0 && tilt_ang <= 0)
-			end = 1;
+	if (key=='e' && tilt==0 && tilt_ang<=0)
+		end = 1;
 }
 
 void keyboard_special(int key, int x, int y)
