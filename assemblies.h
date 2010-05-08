@@ -1,3 +1,3 @@
-void drawCart(float r, float g, float b);
-void drawBase(float r, float g, float b);
-void drawPole(GLfloat length);
+void draw_cart(float r, float g, float b);
+void draw_base(float r, float g, float b);
+void draw_pole(GLfloat length);

@@ -22,7 +22,7 @@ void keyboard(unsigned char key,int x,int y)
 			end = 1;
 }
 
-void keyboardSpecial(int key, int x, int y)
+void keyboard_special(int key, int x, int y)
 {
 	if (key==GLUT_KEY_DOWN)
 		view_rotation_v -= 1;

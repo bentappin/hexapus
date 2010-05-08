@@ -1,6 +1,6 @@
 #include "assemblies.h"
 
-void drawCart(float r, float g, float b)
+void draw_cart(float r, float g, float b)
 {
 	glPushMatrix();
 	glRotatef(90,0,1,0);
@@ -125,13 +125,13 @@ void drawCart(float r, float g, float b)
 	glPopMatrix();
 }
 
-void drawBase(float r, float g, float b)
+void draw_base(float r, float g, float b)
 {
     glPushMatrix();
 		glColor3f(r,g,b);
 		glPushMatrix();
     		glScalef(30,0.5,30);
-    		drawCircle(100);
+    		draw_circle(100);
     	glFlush();
     	glPopMatrix();
 	glPopMatrix();
@@ -143,7 +143,7 @@ void drawBase(float r, float g, float b)
  * Copyright (c) 1993-1997, Silicon Graphics, Inc.
  * ALL RIGHTS RESERVED
  */
-void drawPole(GLfloat length)
+void draw_pole(GLfloat length)
 {
 	int l1, l2, num_facet = 12;
 	GLfloat ang, col, yy = length;

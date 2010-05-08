@@ -1,8 +1,8 @@
 #include <math.h>			// for cos, sin etc
 
-void tetrahedron(int m);
-void drawCircle(int faces);
-void drawSphere(float size);
+void draw_tetrahedron(int m);
+void draw_circle(int faces);
+void draw_sphere(float size);
 
 /* 
  * The following, taken from E.Angel's "sphere" program, defines
@@ -16,6 +16,6 @@ GLfloat v[][3] = {
         {-0.816497, -0.471405, -0.333333}, 
         {0.816497, -0.471405, -0.333333}   };
 
-void triangle( GLfloat a[], GLfloat b[], GLfloat c[]);
+void draw_triangle( GLfloat a[], GLfloat b[], GLfloat c[]);
 void normal(GLfloat p[]);
-void divideTriangle( GLfloat a[], GLfloat b[], GLfloat c[], int m);
+void divide_triangle( GLfloat a[], GLfloat b[], GLfloat c[], int m);

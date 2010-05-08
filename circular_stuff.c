@@ -1,6 +1,6 @@
 #include "circular_stuff.h"
 
-void drawCircle(int faces)
+void draw_circle(int faces)
 {
 	GLint i;
 	GLfloat cosine, sine;
@@ -26,15 +26,15 @@ void drawCircle(int faces)
 	glPopMatrix();
 }
 
-void drawSphere(float size)
+void draw_sphere(float size)
 {
 	glPushMatrix();
 		glScalef(size, size, size);
-		tetrahedron(5);
+		draw_tetrahedron(5);
 	glPopMatrix();
 }
 
-void triangle( GLfloat a[], GLfloat b[], GLfloat c[])
+void draw_triangle( GLfloat a[], GLfloat b[], GLfloat c[])
 {
 	glBegin(GL_POLYGON);
 		glNormal3fv(a);
@@ -63,7 +63,7 @@ void normal(GLfloat p[]) {
         for(i=0; i<3; i++) p[i]/=d;
 }
 
-void divideTriangle( GLfloat a[], GLfloat b[], GLfloat c[], int m)
+void divide_triangle( GLfloat a[], GLfloat b[], GLfloat c[], int m)
 {
     /* 
      * Triangle subdivision using vertex numbers.
@@ -91,26 +91,26 @@ void divideTriangle( GLfloat a[], GLfloat b[], GLfloat c[], int m)
         }
         normal(v3);    
             
-        divideTriangle(a, v1, v2, m-1);
-        divideTriangle(c, v2, v3, m-1);
-        divideTriangle(b, v3, v1, m-1);
-        divideTriangle(v1, v3, v2,m-1);
+        divide_triangle(a, v1, v2, m-1);
+        divide_triangle(c, v2, v3, m-1);
+        divide_triangle(b, v3, v1, m-1);
+        divide_triangle(v1, v3, v2,m-1);
     }
     else
-        triangle(a,b,c); /* draw triangle at end of recursion */
+        draw_triangle(a,b,c); /* draw triangle at end of recursion */
 }
 
-void tetrahedron( int m )
+void draw_tetrahedron( int m )
 {
     /* Apply triangle subdivision to faces of tetrahedron */
     glPushMatrix();
         glPushAttrib( GL_ALL_ATTRIB_BITS );
         glMaterialfv( GL_FRONT, GL_SPECULAR, specFact ); 
         glMaterialfv( GL_FRONT, GL_SHININESS, shininess );
-        divideTriangle(v[0], v[1], v[2], m-1);
-        divideTriangle(v[3], v[2], v[1], m-1);
-        divideTriangle(v[0], v[3], v[1], m-1);
-        divideTriangle(v[0], v[2], v[3], m-1);
+        divide_triangle(v[0], v[1], v[2], m-1);
+        divide_triangle(v[3], v[2], v[1], m-1);
+        divide_triangle(v[0], v[3], v[1], m-1);
+        divide_triangle(v[0], v[2], v[3], m-1);
         glPopAttrib();
     glPopMatrix();
 }

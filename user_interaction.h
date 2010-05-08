@@ -10,4 +10,4 @@ int view_rotation_v = 5;
 int view_rotation_h = 5;
 
 void keyboard(unsigned char key,int x,int y);
-void keyboardSpecial(int key, int x, int y);
+void keyboard_special(int key, int x, int y);

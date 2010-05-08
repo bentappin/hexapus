@@ -30,19 +30,19 @@
 #include "circular_stuff.c"		// contains functions for circles, spheres, cylinders
 #include "assemblies.c"   		// draws the 'things'
 
-float rideRotation = 0.0;      // Ride animation angle
-float rideRotationInc = 0.8; 	// Ride animation increment
-float armRotation = 0.0;	    // Inner arm and cart rotation angle
-float armRotationInc = 0.6; 	// Inner arm rotation increment
+float ride_rotation = 0.0;      // Ride animation angle
+float ride_rotation_inc = 0.8; 	// Ride animation increment
+float arm_rotation = 0.0;	    // Inner arm and cart rotation angle
+float arm_rotation_inc = 0.6; 	// Inner arm rotation increment
 
 #include "user_interaction.c"   // sorts out all the button presses
 
 
 /*
- * METHOD: drawMovableParts
+ * METHOD: darw_moveable_parts
  * This method draws all the parts of the ride that move.
  */
-void drawMoveableParts()
+void darw_moveable_parts()
 {
 	int i;
 	for(i = 0; i < 360; i += 120) // loops 3 times, increasing rotation each time ...
@@ -56,10 +56,10 @@ void drawMoveableParts()
 			glRotatef(180, 1.0, 1.0, 0.0); 			// flip so we're horizontal
 			glTranslatef(0.0, -SMALL_POLE, 0.0); 	// move half the length of the pole out
 			glColor3f(WHITE);
-			drawPole(SMALL_POLE);
+			draw_pole(SMALL_POLE);
 			
 			glColor3f(RED);
-			drawSphere(SMALL_SPHERE);
+			draw_sphere(SMALL_SPHERE);
 		
 			// If the tilt key has been pressed lets tilt the carts!
 			if (tilt == 1)
@@ -78,10 +78,10 @@ void drawMoveableParts()
 			glRotatef(180.0, 1.0, 1.0, 0.0); 	    // flip so we're vertical again
 			glTranslatef(0.0, -SMALL_POLE, 0.0); 	// move half the length of the pole out/down/whatever :S
 			glColor3f(WHITE);
-			drawPole(SMALL_POLE);
+			draw_pole(SMALL_POLE);
 
 			glColor3f(RED);
-            drawSphere(SMALL_SPHERE);
+            draw_sphere(SMALL_SPHERE);
 
 			/*
 			 * Draw horizontal arms, then vertical arms to the carts
@@ -92,58 +92,58 @@ void drawMoveableParts()
 			glRotatef(90.0, 1.0, 0.0, 0.0); 	// Rotate to align with carts.
 
 			if (move_height >= POLE_EXTENSION && end == 0)	// OK, already moved the assembly up now.
-				armRotation += armRotationInc;
+				arm_rotation += arm_rotation_inc;
 			
-			glRotatef(armRotation, 1.0, 0.0, 0.0);	// Animate ...
+			glRotatef(arm_rotation, 1.0, 0.0, 0.0);	// Animate ...
 			
 			glTranslatef(0.0, SMALL_POLE/2.0, 0.0); // Translate back a bit.
 			glColor3f(RED);
-			drawSphere(SMALL_SPHERE);
+			draw_sphere(SMALL_SPHERE);
 			glTranslatef(0.0, -SMALL_POLE/2.0, 0.0);// Undo translate.
 			
 			glTranslatef(0.0, -SMALL_POLE/2.0, 0.0);// Move half the length of the pole out.
 			glColor3f(WHITE);
-			drawPole(SMALL_POLE);
+			draw_pole(SMALL_POLE);
 
 			glColor3f(RED);
-			drawSphere(SMALL_SPHERE);
+			draw_sphere(SMALL_SPHERE);
 
 			glRotatef(180 ,1.0, 1.0 ,0.015); 	// rotate to align with carts
 			glTranslatef(0.0, -SMALL_POLE, 0.0);
 			glColor3f(WHITE);
-			drawPole(SMALL_POLE);
+			draw_pole(SMALL_POLE);
 			
 			switch (i)
 			{
 				case 0:
-					drawCart(RED);
+					draw_cart(RED);
 					break;
 		
 				case 120:
-					drawCart(GREEN);
+					draw_cart(GREEN);
 					break;
 
 				case 240:
-					drawCart(DKBLUE);
+					draw_cart(DKBLUE);
 					break; 
 			}
 
 			glTranslatef(SMALL_POLE, 0.0, 0.0);	// Move half the length of the pole out.
 			glColor3f(WHITE);
-			drawPole(SMALL_POLE);
+			draw_pole(SMALL_POLE);
 
 			switch (i)
 			{
 				case 0:
-					drawCart(CYAN);
+					draw_cart(CYAN);
 					break;
 		
 				case 120:
-					drawCart(DKRED);
+					draw_cart(DKRED);
 					break;
 
 				case 240:
-					drawCart(DKMAGENTA);
+					draw_cart(DKMAGENTA);
 					break; 
 			}
 			
@@ -174,7 +174,7 @@ void display()
 	glPushMatrix();
 		glColor3f(WHITE);
 		glScalef(1.6,1.0,1.6);	// Make pole fatter.
-		drawPole(BIG_POLE+POLE_EXTENSION);
+		draw_pole(BIG_POLE+POLE_EXTENSION);
 	glPopMatrix();
 
 	if (move_up == 1) // Move part of the assembly up to the top of the pole.
@@ -187,7 +187,7 @@ void display()
 	else // We're at the top of the pole or in the starting position.
 	{
 		if (move_height >= POLE_EXTENSION && end == 0) // OK, definitely already moved the assembly up.
-			rideRotation += rideRotationInc; // increase rotate variable
+			ride_rotation += ride_rotation_inc; // increase rotate variable
 		else if (end == 1)
 		    // Bring the ride down.
 			if (move_height <= 0.0)
@@ -196,12 +196,12 @@ void display()
 			    move_height -= 0.25;
 	}
 	
-	glRotatef(rideRotation,0.0,1,0.0);		// Animate moveable parts around the main pole.
+	glRotatef(ride_rotation,0.0,1,0.0);		// Animate moveable parts around the main pole.
 	glTranslatef(0.0,move_height,0.0);
-	drawMoveableParts();
+	darw_moveable_parts();
 	
 	glPopMatrix(); // Pop here to stop base spinning.
-    drawBase(DKGREEN);
+    draw_base(DKGREEN);
     
     glutSwapBuffers();
 }
@@ -241,7 +241,7 @@ int main(int argc, char **argv)
     // Assign glut callbacks
 	glutReshapeFunc(reshape);		// window resizes and program initilisation
 	glutDisplayFunc(display);		// let's draw some stuff :-)
-	glutSpecialFunc(keyboardSpecial);	// for the arrow keys
+	glutSpecialFunc(keyboard_special);	// for the arrow keys
 	glutKeyboardFunc(keyboard);		// for other key presses
 	glutIdleFunc(display);			// used for animation!
 
