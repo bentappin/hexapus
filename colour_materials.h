@@ -15,11 +15,12 @@
 #define	YELLOW		1.0, 1.0, 0.2
 #define	WHITE		1.0, 1.0, 1.0
 
+
 /*
  * Some of the objects have "material" properties to give them a shiny
  * appearance...
  */
  
-GLfloat spec_fact[]  = { 1.0, 1.0, 1.0, 1.0 };
+GLfloat spec_fact[] = { 1.0, 1.0, 1.0, 1.0 };
 GLfloat shininess[] = { 8.0 };
 

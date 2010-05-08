@@ -1,4 +1,3 @@
-
 INCPATH = -I /usr/X11R6/include/
 LIBS = -lglut -lGLU -lGL -lXi -lXmu -lX11 -lm -lpthread
 LIBPATH = -L/usr/lib -L/usr/X11R6/lib/
@@ -11,4 +10,3 @@ LIBPATH = -L/usr/lib -L/usr/X11R6/lib/
 
 %:%.cc
 	g++ $(INCPATH) $(LIBPATH) $^ $(LIBS) -o $@
-

@@ -46,7 +46,8 @@ void draw_triangle( GLfloat a[], GLfloat b[], GLfloat c[])
 	glEnd();
 }
 
-void normal(GLfloat p[]) {
+void normal(GLfloat p[])
+{
     /* Normalize a vector.
      *
      * Taken from/based on code from E. Angel's "sphere".
