@@ -20,29 +20,23 @@ void keyboard(unsigned char key,int x,int y)
 	if (key=='e')
 		if (tilt == 0 && tilt_ang <= 0)
 			end = 1;
-
-	if (key=='x')
-		if (easter == 0)
-			easter = 1;
-		else
-			easter = 0;
 }
 
 void keyboardSpecial(int key, int x, int y)
 {
 	if (key==GLUT_KEY_DOWN)
-		rotate_angle_v -= 1;
+		view_rotation_v -= 1;
 	
 	if (key==GLUT_KEY_UP)
-		rotate_angle_v += 1;
+		view_rotation_v += 1;
 
 	if (key==GLUT_KEY_LEFT)
-		rotate_angle_h -= 1;
+		view_rotation_h -= 1;
 	
 	if (key==GLUT_KEY_RIGHT)
-		rotate_angle_h += 1;
+		view_rotation_h += 1;
 
-	rotate_angle_v %= 360;
-	rotate_angle_h %= 360;
+	view_rotation_v %= 360;
+	view_rotation_h %= 360;
 	glutPostRedisplay();
 }

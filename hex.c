@@ -30,15 +30,19 @@
 #include "circular_stuff.c"		// contains functions for circles, spheres, cylinders
 #include "assemblies.c"   		// draws the 'things'
 
-float ani_ang = 0.0;	// animation angle
-float ani_inc = 0.8; 	// animation increment
-float ani_ang2 = 0.0;	// for the inner arm and cart rotations
-float ani_inc2 = 0.6; 	// animation increment for inner arms
+float ride_rotation = 0.0;	// animation angle
+float ride_rotation_inc = 0.8; 	// animation increment
+float arm_rotation = 0.0;	// for the inner arm and cart rotations
+float arm_rotation_inc = 0.6; 	// animation increment for inner arms
 
 #include "user_interaction.c"   // sorts out all the button presses
 
 
-void drawMoveable()
+/*
+ * METHOD: drawMovableParts
+ * This method draws all the parts of the ride that move.
+ */
+void drawMoveableParts()
 {
 	int i;
 	for(i = 0; i < 360; i += 120) // loops 3 times, increasing rotation each time ...
@@ -88,13 +92,9 @@ void drawMoveable()
 			glRotatef(90.0, 1.0, 0.0, 0.0); 	// Rotate to align with carts.
 
 			if (move_height >= POLE_EXTENSION && end == 0)	// OK, already moved the assembly up now.
-			{
-				ani_ang2 += ani_inc2;
-				if (easter == 1)
-					glRotatef(ani_ang2, 0.0, 1.0, 0.0);	// Animate ...
-				else
-					glRotatef(ani_ang2, 1.0, 0.0, 0.0);	// Animate ...
-			}
+				arm_rotation += arm_rotation_inc;
+			
+			glRotatef(arm_rotation, 1.0, 0.0, 0.0);	// Animate ...
 			
 			glTranslatef(0.0, SMALL_POLE/2.0, 0.0); // Translate back a bit.
 			glColor3f(RED);
@@ -163,8 +163,10 @@ void display()
 	glClear( GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT );
 	glLoadIdentity();
 
-	glRotatef( rotate_angle_v, 1.0, 0.0, 0.0 );
-	glRotatef( rotate_angle_h, 0.0, 1.0, 0.0 );
+    // These rotates allow the user to move around the ride. Almost
+    // like moving the camera.
+	glRotatef( view_rotation_v, 1.0, 0.0, 0.0 );
+	glRotatef( view_rotation_h, 0.0, 1.0, 0.0 );
 
 	glPushMatrix();
 
@@ -185,7 +187,7 @@ void display()
 	else // We're at the top of the pole or in the starting position.
 	{
 		if (move_height >= POLE_EXTENSION && end == 0) // OK, definitely already moved the assembly up.
-			ani_ang += ani_inc; // increase rotate variable
+			ride_rotation += ride_rotation_inc; // increase rotate variable
 		else if (end == 1)
 		    // Bring the ride down.
 			if (move_height <= 0.0)
@@ -194,10 +196,10 @@ void display()
 			    move_height -= 0.25;
 	}
 	
-	glRotatef(ani_ang,0.0,1,0.0);		// Animate ...
+	glRotatef(ride_rotation,0.0,1,0.0);		// Animate moveable parts around the main pole.
 	glTranslatef(0.0,move_height,0.0);
+	drawMoveableParts();
 	
-	drawMoveable();
 	glPopMatrix(); // Pop here to stop base spinning.
     drawBase(DKGREEN);
     

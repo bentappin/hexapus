@@ -6,10 +6,8 @@ float tilt_ang = 0;	// what angle are we currently at?
 
 int end = 0;		// is it time to end and bring the ride back to start?
 
-int rotate_angle_v = 5;	// how much to increment by when rotating
-int rotate_angle_h = 5;	// how much to increment by when rotating
-
-int easter = 0;
+int view_rotation_v = 5;
+int view_rotation_h = 5;
 
 void keyboard(unsigned char key,int x,int y);
 void keyboardSpecial(int key, int x, int y);
