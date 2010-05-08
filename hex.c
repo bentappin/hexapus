@@ -1,9 +1,8 @@
 /************************************************************************/
-/* hex.c : Hex-a-Pus - Animated fairground ride				*/
+/* hex.c : Hex-a-Pus - Animated fairground ride				            */
 /************************************************************************/
 /* 
- * By Ben Tappin scs4brt@comp.leeds.ac.uk
- * For GI21 (David Duke) - Coursework 2
+ * By Ben Tappin - ben@mrben.co.uk
  *
  * Keys:
  *	ESC,q	Quits the program
@@ -14,37 +13,33 @@
  *
  ************************************************************************/
 
-#include <GL/glut.h>			// should be obvious really ;-)
+#include <GL/glut.h>
 
-#define SMALL_SPHERE	2.5			// standard sphere size
+#define PI		3.14159265
+
+#define SMALL_SPHERE	2.5			    // standard sphere size
 #define BIG_SPHERE	SMALL_SPHERE + 1.5	// larger sphere size
 #define MAX_TILT	45.0
 
-#define BIG_POLE	35.0		// length of the large pole
+#define BIG_POLE	35.0		    // length of the large pole
 #define SMALL_POLE	BIG_POLE / 2.0	// length of the smaller poles
 #define POLE_EXTENSION	15.0
 
-#include "colour_materials.h"		// for predefined colour floats e.g., RED, WHITE etc
-#include "cart.c"			// draws our cart
+#include <stdlib.h>
+#include "colour_materials.h"   // for predefined colour floats e.g., RED, WHITE etc
 #include "circular_stuff.c"		// contains functions for circles, spheres, cylinders
+#include "assemblies.c"   		// draws the 'things'
 
 float ani_ang = 0.0;	// animation angle
 float ani_inc = 0.8; 	// animation increment
 float ani_ang2 = 0.0;	// for the inner arm and cart rotations
 float ani_inc2 = 0.6; 	// animation increment for inner arms
 
-#include "user_interaction.c"		// sorts out all the button presses
+#include "user_interaction.c"   // sorts out all the button presses
 
-void draw_moveable()
+
+void drawMoveable()
 {
-	
-	// draw sphere on top of pole
-	glPushMatrix();
-		glTranslatef(0.0, BIG_POLE, 0.0);
-		glColor3f(RED);
-		draw_sphere(BIG_SPHERE);
-	glPopMatrix();
-
 	int i;
 	for(i = 0; i < 360; i += 120) // loops 3 times, increasing rotation each time ...
 	{
@@ -53,104 +48,102 @@ void draw_moveable()
 			
 			glTranslatef(0.0, BIG_POLE, 0.0); // to the top of the centre pole
 
-			// horizontal pole
+			// Horizontal pole.
 			glRotatef(180, 1.0, 1.0, 0.0); 			// flip so we're horizontal
 			glTranslatef(0.0, -SMALL_POLE, 0.0); 	// move half the length of the pole out
 			glColor3f(WHITE);
-			draw_pole(SMALL_POLE); 		// draw a small pole
+			drawPole(SMALL_POLE);
 			
 			glColor3f(RED);
-			draw_sphere(SMALL_SPHERE);		// draw a sphere at the end of it
+			drawSphere(SMALL_SPHERE);
 		
-			// if the tilt key has been pressed lets tilt the thing!	
+			// If the tilt key has been pressed lets tilt the carts!
 			if (tilt == 1)
 			{
 				if (tilt_ang < MAX_TILT)
 					tilt_ang += 0.25;
-				
-				glRotatef(tilt_ang, 0.0, 0.0, 1.0);
 			}
 			else
 			{
 				if (tilt_ang >= 0.0)
 					tilt_ang -=  0.25;
-				
-				glRotatef(tilt_ang, 0.0, 0.0, 1.0);
 			}
+			
+			glRotatef(tilt_ang, 0.0, 0.0, 1.0);
 						
-			glRotatef(180.0, 1.0, 1.0, 0.0); 	// flip so we're vertical again
+			glRotatef(180.0, 1.0, 1.0, 0.0); 	    // flip so we're vertical again
 			glTranslatef(0.0, -SMALL_POLE, 0.0); 	// move half the length of the pole out/down/whatever :S
 			glColor3f(WHITE);
-			draw_pole(SMALL_POLE); 			// draw a small pole
+			drawPole(SMALL_POLE);
 
 			glColor3f(RED);
-			draw_sphere(SMALL_SPHERE);		// draw a sphere at the end of it
+            drawSphere(SMALL_SPHERE);
 
-			// now to draw horizontal arms at the, then vertical arms to the carts
-			// and rotate them if we're ready
+			/*
+			 * Draw horizontal arms, then vertical arms to the carts
+			 * and rotate them if we're ready.
+			 */
 			
-			glRotatef(180.0, 1.0, 1.0, 0.0); 	// flip so we're horizontal again
-			glRotatef(90.0, 1.0, 0.0, 0.0); 	// rotate to align with carts
+			glRotatef(180.0, 1.0, 1.0, 0.0); 	// Flip so we're horizontal again.
+			glRotatef(90.0, 1.0, 0.0, 0.0); 	// Rotate to align with carts.
 
-			if (move_height >= POLE_EXTENSION && end == 0)	// ok, definately already moved the assembly up now
+			if (move_height >= POLE_EXTENSION && end == 0)	// OK, already moved the assembly up now.
 			{
 				ani_ang2 += ani_inc2;
 				if (easter == 1)
-					glRotatef(ani_ang2, 0.0, 1.0, 0.0);	// animate ...
+					glRotatef(ani_ang2, 0.0, 1.0, 0.0);	// Animate ...
 				else
-					glRotatef(ani_ang2, 1.0, 0.0, 0.0);	// animate ...
+					glRotatef(ani_ang2, 1.0, 0.0, 0.0);	// Animate ...
 			}
 			
-			glTranslatef(0.0, SMALL_POLE/2.0, 0.0); // translate back a bit
+			glTranslatef(0.0, SMALL_POLE/2.0, 0.0); // Translate back a bit.
 			glColor3f(RED);
-			draw_sphere(SMALL_SPHERE);		// draw sphere
-			glTranslatef(0.0, -SMALL_POLE/2.0, 0.0);// return to old position
+			drawSphere(SMALL_SPHERE);
+			glTranslatef(0.0, -SMALL_POLE/2.0, 0.0);// Undo translate.
 			
-			glTranslatef(0.0, -SMALL_POLE/2.0, 0.0);// move half the length of the pole out
+			glTranslatef(0.0, -SMALL_POLE/2.0, 0.0);// Move half the length of the pole out.
 			glColor3f(WHITE);
-			draw_pole(SMALL_POLE); 			// draw a small pole
+			drawPole(SMALL_POLE);
 
 			glColor3f(RED);
-			draw_sphere(SMALL_SPHERE);		// draw sphere
+			drawSphere(SMALL_SPHERE);
 
 			glRotatef(180 ,1.0, 1.0 ,0.015); 	// rotate to align with carts
 			glTranslatef(0.0, -SMALL_POLE, 0.0);
 			glColor3f(WHITE);
-			draw_pole(SMALL_POLE); 			// draw a small pole
+			drawPole(SMALL_POLE);
 			
-			// colour each cart differently
 			switch (i)
 			{
 				case 0:
-					draw_cart(RED);
+					drawCart(RED);
 					break;
 		
 				case 120:
-					draw_cart(GREEN);
+					drawCart(GREEN);
 					break;
 
 				case 240:
-					draw_cart(DKBLUE);
+					drawCart(DKBLUE);
 					break; 
 			}
 
-			glTranslatef(SMALL_POLE, 0.0, 0.0);	// move half the length of the pole out
+			glTranslatef(SMALL_POLE, 0.0, 0.0);	// Move half the length of the pole out.
 			glColor3f(WHITE);
-			draw_pole(SMALL_POLE); 			// draw a small pole
+			drawPole(SMALL_POLE);
 
-			// colour each cart differently
 			switch (i)
 			{
 				case 0:
-					draw_cart(CYAN);
+					drawCart(CYAN);
 					break;
 		
 				case 120:
-					draw_cart(DKRED);
+					drawCart(DKRED);
 					break;
 
 				case 240:
-					draw_cart(DKMAGENTA);
+					drawCart(DKMAGENTA);
 					break; 
 			}
 			
@@ -165,7 +158,7 @@ void draw_moveable()
 void display()
 {
 	/*
-	 * begin by clearing out the buffers needed to render the model.
+	 * Begin by clearing out the buffers needed to render the model.
 	 */
 	glClear( GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT );
 	glLoadIdentity();
@@ -178,55 +171,37 @@ void display()
 	// draw main pole
 	glPushMatrix();
 		glColor3f(WHITE);
-		glScalef(1.6,1.0,1.6);	// Make pole fatter
-		draw_pole(BIG_POLE+POLE_EXTENSION);
+		glScalef(1.6,1.0,1.6);	// Make pole fatter.
+		drawPole(BIG_POLE+POLE_EXTENSION);
 	glPopMatrix();
 
-	if (move_up == 1) // indicate we want to move part of the assembly up to the top of the pole
+	if (move_up == 1) // Move part of the assembly up to the top of the pole.
 	{
 		if (move_height >= POLE_EXTENSION)
 			move_up = 0;
 		else
-		{
 			move_height += 0.25;
-			glTranslatef(0.0,move_height,0.0);
-			draw_moveable();
-		}
 	}
-	else // we're at the top of the pole or in the starting position
+	else // We're at the top of the pole or in the starting position.
 	{
-		if (move_height >= POLE_EXTENSION && end == 0) // ok, definately already moved the assembly up now
-		{
-			ani_ang += ani_inc;			// increase rotate variable
-								
-			glRotatef(ani_ang,0.0,1,0.0);		// animate ...
-			glTranslatef(0.0,move_height,0.0);  	// ... at full height ...
-			draw_moveable();			// ... these components
-		}
-		else // still in start position, or moving the ride down again
-			if (end == 1)
-			{
-				if (move_height <= 0.0) // if we've already at the bottom lets not loop another time
-					end = 0;
-				
-				move_height -= 0.25;
-				glTranslatef(0.0,move_height,0.0); 
-				draw_moveable();
-			}
+		if (move_height >= POLE_EXTENSION && end == 0) // OK, definitely already moved the assembly up.
+			ani_ang += ani_inc; // increase rotate variable
+		else if (end == 1)
+		    // Bring the ride down.
+			if (move_height <= 0.0)
+				end = 0;
 			else
-				draw_moveable();
+			    move_height -= 0.25;
 	}
-
-	glPopMatrix(); // we do not want the base to spin
-
-	// draw ride base
-	glPushMatrix();
-		glColor3f(DKGREEN);
-		draw_base();
-	glPopMatrix();
-
-	// needed when using double buffering
-	glutSwapBuffers();
+	
+	glRotatef(ani_ang,0.0,1,0.0);		// Animate ...
+	glTranslatef(0.0,move_height,0.0);
+	
+	drawMoveable();
+	glPopMatrix(); // Pop here to stop base spinning.
+    drawBase(DKGREEN);
+    
+    glutSwapBuffers();
 }
 
 /*
@@ -261,16 +236,17 @@ int main(int argc, char **argv)
 
 	glutCreateWindow("Hex-a-Pus");
 
+    // Assign glut callbacks
 	glutReshapeFunc(reshape);		// window resizes and program initilisation
 	glutDisplayFunc(display);		// let's draw some stuff :-)
-	glutSpecialFunc(keyboard_special);	// for the arrow keys
+	glutSpecialFunc(keyboardSpecial);	// for the arrow keys
 	glutKeyboardFunc(keyboard);		// for other key presses
 	glutIdleFunc(display);			// used for animation!
 
 	/*
 	 * Since we are going to scale the geometry of some objects,
 	 * the normal vectors used for lighting effects will need to
-	 * be recalculated.  This is something for GL to do.
+	 * be recalculated. This is something for GL to do.
 	 */
 	glEnable( GL_NORMALIZE );
 
@@ -279,14 +255,14 @@ int main(int argc, char **argv)
 	glEnable( GL_LIGHTING );
 	glEnable( GL_LIGHT0 );
 
-//	glEnable ( GL_COLOR_MATERIAL );
-//	glColorMaterial( GL_FRONT_AND_BACK, GL_AMBIENT_AND_DIFFUSE );
+	glEnable ( GL_COLOR_MATERIAL );
+	glColorMaterial( GL_FRONT_AND_BACK, GL_AMBIENT_AND_DIFFUSE );
 
 	// Create light components
 	GLfloat ambientLight[] = { 0.6f, 0.6f, 0.6f, 1.0f };
 	GLfloat diffuseLight[] = { 0.8f, 0.8f, 0.8, 1.0f };
 	GLfloat specularLight[] = { 0.6f, 0.6f, 0.6f, 1.0f };
-//	GLfloat position[] = { -20.0f, 50.0f, -30.0f, 1.0f };
+	//GLfloat position[] = { -20.0f, 50.0f, -30.0f, 1.0f };
 	GLfloat position[] = { -10.0f, 40.0f, -10.0f, 1.0f };
 
 	// Assign created components to GL_LIGHT0

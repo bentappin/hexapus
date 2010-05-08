@@ -1,6 +1,6 @@
 #include "circular_stuff.h"
 
-void draw_circle(int faces)
+void drawCircle(int faces)
 {
 	GLint i;
 	GLfloat cosine, sine;
@@ -26,68 +26,13 @@ void draw_circle(int faces)
 	glPopMatrix();
 }
 
-/*
- * Pole drawing code adapted from Roy Ruddle's
- * gi31-light.cc which contains this notice
-// Copyright (c) 1993-1997, Silicon Graphics, Inc.
-// ALL RIGHTS RESERVED 
- *
- */
-void draw_pole(GLfloat length)
-{
-	int l1, l2, num_facet = 12;
-	GLfloat ang, col, yy = length;
-	GLfloat cx = 0.0, cy = 1.5, cz = 5.0;
-
-	for( l1=0; l1<num_facet; l1++ ) { // draw facetted cylinder
-		glBegin (GL_TRIANGLE_STRIP);
-		glPushAttrib( GL_ALL_ATTRIB_BITS );
-		glMaterialfv( GL_FRONT, GL_SPECULAR, specFact ); 
-		glMaterialfv( GL_FRONT, GL_SHININESS, shininess );
-
-		// get the the angle at which the triangle will have
-		ang = ((GLfloat) l1) / ((GLfloat) num_facet) * 2.0 * PI;
- 
-		for( l2=0; l2<2; l2++ ) // draw facet
-		{
-			glNormal3f(cos( ang ), 0.0, -sin( ang ));
-			// calulate distant vertex
-			glVertex3f(cos( ang ), yy, -sin( ang ));
-			glVertex3f(cos( ang ), 0.0, -sin( ang ));
-			ang = ((GLfloat) l1 + 1) / ((GLfloat) num_facet) * 2.0 * PI;
-		}
-		glEnd();
-	}
-	glPopAttrib();
-	glFlush ();
-}
-
-void draw_sphere(float size)
+void drawSphere(float size)
 {
 	glPushMatrix();
 		glScalef(size, size, size);
 		tetrahedron(5);
 	glPopMatrix();
 }
-
-void draw_base()
-{
-	glPushMatrix();
-		glScalef(30,0.5,30);
-		draw_circle(100);
-	glFlush();
-	glPopMatrix();
-}
-
-/* 
- * The following three procedures are from E. Angel's "sphere" program,
- * and calculate a sphere by recursive subdivision ...
- *
- * Taken and modified from David Duke's planets.c
- *
- * Colouring has been taken out.
- *
- */
 
 void triangle( GLfloat a[], GLfloat b[], GLfloat c[])
 {
@@ -102,8 +47,10 @@ void triangle( GLfloat a[], GLfloat b[], GLfloat c[])
 }
 
 void normal(GLfloat p[]) {
-
-    /* normalize a vector */
+    /* Normalize a vector.
+     *
+     * Taken from/based on code from E. Angel's "sphere".
+     */
 
     double sqrt();
     float d =0.0;
@@ -116,13 +63,14 @@ void normal(GLfloat p[]) {
         for(i=0; i<3; i++) p[i]/=d;
 }
 
-void divide_triangle( GLfloat a[], GLfloat b[], GLfloat c[], int m)
+void divideTriangle( GLfloat a[], GLfloat b[], GLfloat c[], int m)
 {
-
     /* 
      * Triangle subdivision using vertex numbers.
      * Righthand rule applied to create outward pointing faces.
      * The parameter m is used to terminate subdivision.
+     *
+     * Taken from/based on code from E. Angel's "sphere".
      */
 
     GLfloat v1[3], v2[3], v3[3];
@@ -143,10 +91,10 @@ void divide_triangle( GLfloat a[], GLfloat b[], GLfloat c[], int m)
         }
         normal(v3);    
             
-        divide_triangle(a, v1, v2, m-1);
-        divide_triangle(c, v2, v3, m-1);
-        divide_triangle(b, v3, v1, m-1);
-        divide_triangle(v1, v3, v2,m-1);
+        divideTriangle(a, v1, v2, m-1);
+        divideTriangle(c, v2, v3, m-1);
+        divideTriangle(b, v3, v1, m-1);
+        divideTriangle(v1, v3, v2,m-1);
     }
     else
         triangle(a,b,c); /* draw triangle at end of recursion */
@@ -154,17 +102,15 @@ void divide_triangle( GLfloat a[], GLfloat b[], GLfloat c[], int m)
 
 void tetrahedron( int m )
 {
-
-    
     /* Apply triangle subdivision to faces of tetrahedron */
     glPushMatrix();
-    glPushAttrib( GL_ALL_ATTRIB_BITS );
-    glMaterialfv( GL_FRONT, GL_SPECULAR, specFact ); 
-    glMaterialfv( GL_FRONT, GL_SHININESS, shininess );
-    divide_triangle(v[0], v[1], v[2], m-1);
-    divide_triangle(v[3], v[2], v[1], m-1);
-    divide_triangle(v[0], v[3], v[1], m-1);
-    divide_triangle(v[0], v[2], v[3], m-1);
-    glPopAttrib();
+        glPushAttrib( GL_ALL_ATTRIB_BITS );
+        glMaterialfv( GL_FRONT, GL_SPECULAR, specFact ); 
+        glMaterialfv( GL_FRONT, GL_SHININESS, shininess );
+        divideTriangle(v[0], v[1], v[2], m-1);
+        divideTriangle(v[3], v[2], v[1], m-1);
+        divideTriangle(v[0], v[3], v[1], m-1);
+        divideTriangle(v[0], v[2], v[3], m-1);
+        glPopAttrib();
     glPopMatrix();
 }

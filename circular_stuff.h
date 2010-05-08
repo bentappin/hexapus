@@ -1,11 +1,8 @@
 #include <math.h>			// for cos, sin etc
-#define PI		3.14159265
 
 void tetrahedron(int m);
-void draw_circle(int faces);
-void draw_pole(GLfloat length);
-void draw_sphere(float size);
-void draw_base();
+void drawCircle(int faces);
+void drawSphere(float size);
 
 /* 
  * The following, taken from E.Angel's "sphere" program, defines
@@ -21,4 +18,4 @@ GLfloat v[][3] = {
 
 void triangle( GLfloat a[], GLfloat b[], GLfloat c[]);
 void normal(GLfloat p[]);
-void divide_triangle( GLfloat a[], GLfloat b[], GLfloat c[], int m);
+void divideTriangle( GLfloat a[], GLfloat b[], GLfloat c[], int m);

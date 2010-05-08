@@ -1,3 +1,8 @@
-The main C file is hex.c.
+Hex-a-Pus is a reworking of a graphics module coursework I did
+whilst studying in the School of Computing, the University of
+Leeds.
 
-'make hex' should compile from a terminal.
+Compiles OK for me on Ubuntu and Mac OS X.
+
+'make hex' to compile.
+'./hex' to run.
