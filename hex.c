@@ -33,7 +33,7 @@
 float ride_rotation = 0.0;      // Ride animation angle
 float ride_rotation_inc = 0.6; 	// Ride animation increment
 float arm_rotation = 0.0;	    // Inner arm and cart rotation angle
-float arm_rotation_inc = 0.4; 	// Inner arm rotation increment
+float arm_rotation_inc = 0.25; 	// Inner arm rotation increment
 
 #include "user_interaction.c"   // sorts out all the button presses
 
