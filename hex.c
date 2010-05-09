@@ -31,9 +31,9 @@
 #include "assemblies.c"   		// draws the 'things'
 
 float ride_rotation = 0.0;      // Ride animation angle
-float ride_rotation_inc = 0.8; 	// Ride animation increment
+float ride_rotation_inc = 0.6; 	// Ride animation increment
 float arm_rotation = 0.0;	    // Inner arm and cart rotation angle
-float arm_rotation_inc = 0.6; 	// Inner arm rotation increment
+float arm_rotation_inc = 0.4; 	// Inner arm rotation increment
 
 #include "user_interaction.c"   // sorts out all the button presses
 
@@ -121,7 +121,7 @@ void draw_moveable_parts()
 					draw_cart(DKBLUE);
 					break; 
 			}
-
+            
 			glTranslatef(SMALL_POLE, 0.0, 0.0);	// Move half the length of the pole out.
 			glColor3f(WHITE);
 			draw_pole(SMALL_POLE);
@@ -255,11 +255,10 @@ int main(int argc, char **argv)
 	glColorMaterial( GL_FRONT_AND_BACK, GL_AMBIENT_AND_DIFFUSE );
 
 	// Create light components
-	GLfloat ambient_light[] = { 0.6f, 0.6f, 0.6f, 1.0f };
-	GLfloat diffuse_light[] = { 0.8f, 0.8f, 0.8, 1.0f };
-	GLfloat specular_light[] = { 0.6f, 0.6f, 0.6f, 1.0f };
-	//GLfloat position[] = { -20.0f, 50.0f, -30.0f, 1.0f };
-	GLfloat position[] = { -10.0f, 40.0f, -10.0f, 1.0f };
+	GLfloat ambient_light[] = { 0.2f, 0.2f, 0.2f, 1.0f };
+	GLfloat diffuse_light[] = { 0.7f, 0.7f, 0.7f, 1.0f };
+	GLfloat specular_light[] = { 0.9f, 0.9f, 0.9f, 1.0f };
+	GLfloat position[] = { -30.0f, 60.0f, -30.0f, 1.0f };
 
 	// Assign created components to GL_LIGHT0
 	glLightfv(GL_LIGHT0, GL_AMBIENT, ambient_light);
